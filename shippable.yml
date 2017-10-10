@@ -1,14 +1,15 @@
 language: java
 
 jdk:
+  - openjdk7
+  - oraclejdk7
   - oraclejdk8
 
-after_success:
-   - mvn clean cobertura:cobertura
-   - mvn test
+script:
+  - mvn clean install jacoco:report
+  - mvn -f math-plugin/pom.xml clean package jacoco:report
+  - mvn -f string-plugin/pom.xml clean package jacoco:report
+  - mvn -f lodash-plugin/pom.xml clean package jacoco:report
 
 notifications:
-  email:
-      recipients:
-         - exampleone@org.com
-         - exampletwo@org.com
+   email: false
