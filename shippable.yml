@@ -1,15 +1,17 @@
 language: java
 
-jdk:
-  - openjdk7
-  - oraclejdk7
-  - oraclejdk8
+jdk: oraclejdk8
 
+build:
+  cache: true
+  cache_dir_list:
+    - /root/.m2
+    
 script:
-  - mvn clean install jacoco:report
-  - mvn -f math-plugin/pom.xml clean package jacoco:report
-  - mvn -f string-plugin/pom.xml clean package jacoco:report
-  - mvn -f lodash-plugin/pom.xml clean package jacoco:report
+  - mkdir -p shippable/testresults
+  - mkdir -p shippable/codecoverage
+  - shippable retry mvn install
+  - cp -r target shippable/codecoverage
 
 notifications:
    email: false
